@@ -1,13 +1,26 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Chair } from './Interfaces/chair';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'cargueMasivo';
-}
+
+export class AppComponent implements OnInit {
+  title: string = 'Masivo';
+  usuarios:any;
+
+  constructor(private http: HttpClient){
+
+  }
+  ngOnInit(): void {
+    this.http.get('http://localhost:5267/api/Usuario').subscribe({
+      next: response => this.usuarios = response,
+      error: error => console.log(error),
+      complete:() =>  console.log('La solicitud esta completa')
+    })
+   }
+
+  }
